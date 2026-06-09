@@ -1,0 +1,14 @@
+@media (min-width: 992px) {
+  .w-lg-60 {
+    width: 60% !important;
+  }
+  .w-lg-40 {
+    width: 40% !important;
+  }
+}
+.myfs12 {
+    font-size:12px;
+}
+.myfs14 {
+    font-size:14px;
+}
