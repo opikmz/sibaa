@@ -59,6 +59,7 @@ Route::get('/transaksi/edit', [TransaksiC::class, 'edit'])
 
 Route::get('/show_transaksi/{transaksi}', [TransaksiC::class, 'show'])
     ->name('transaksi.show');
+    
 
 // Saldo dana awal
 Route::get('/saldo_dana_awal', [SaldoDanaAwal::class, 'index'])

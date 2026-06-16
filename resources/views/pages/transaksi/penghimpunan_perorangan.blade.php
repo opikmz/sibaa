@@ -64,6 +64,7 @@
                                 {{-- <a href="" class="btn btn-primary myfs12">T</a> --}}
                                 <a href="{{ route('transaksi.edit',['tipe'=>'perorangan','id'=>$t->id_transaksi]) }}"
                                     class="btn btn-warning myfs12"><i class="fa-solid fa-pen"></i></a>
+                                    
                                 <form action="" method="POST" class="d-inline form-delete">
                                     @csrf
                                     @method('DELETE')
