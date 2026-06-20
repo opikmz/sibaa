@@ -83,9 +83,9 @@ class TransaksiC extends Controller
     /**
      * Display the specified resource.
      */
-    public function  show(TransaksiM $transaksi)
+    public function  showpenghimpunan(TransaksiM $penghimpunan)
     {
-        
+        return view('pages.transaksi.show_penghimpunan',compact('penghimpunan'));
     }
 
     /**

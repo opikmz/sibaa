@@ -57,8 +57,8 @@ Route::get('/penghimpunan', [TransaksiC::class, 'indexp'])
 Route::get('/transaksi/edit', [TransaksiC::class, 'edit'])
     ->name('transaksi.edit');
 
-Route::get('/show_transaksi/{transaksi}', [TransaksiC::class, 'show'])
-    ->name('transaksi.show');
+Route::get('/show_penghimpunan/{penghimpunan}', [TransaksiC::class, 'showpenghimpunan'])
+    ->name('transaksi.showpenghimpunanan');
     
 
 // Saldo dana awal

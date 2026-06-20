@@ -46,7 +46,7 @@
                         <tr>
                             <td class="myfs12">{{ $loop->iteration }}</td>
                             <td class="myfs12">{{ $t->created_at->format('d/m/Y') }}</td>
-                            <td class="myfs12"> <a href="show_transaksi/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi
+                            <td class="myfs12"> <a href="show_penghimpunan/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi
                                     }}</a> </td>
                             <td class="myfs12">{{ $muzaki->nama }}</td>
                             <td class="myfs12">{{ number_format($t->nominal,2) }}</td>
@@ -62,7 +62,7 @@
                             </td>
                             <td>
                                 {{-- <a href="" class="btn btn-primary myfs12">T</a> --}}
-                                <a href="{{ route('transaksi.edit',['tipe'=>'perorangan','id'=>$t->id_transaksi]) }}"
+                                <a href="{{ route('penghimpunan.edit',['tipe'=>'perorangan','id'=>$t->id_transaksi]) }}"
                                     class="btn btn-warning myfs12"><i class="fa-solid fa-pen"></i></a>
                                     
                                 <form action="" method="POST" class="d-inline form-delete">

@@ -36,24 +36,25 @@
                     @if ($muzakip->is_active == 1)
                     <div class="myfs14">
                         <form action="{{ route('destroy_muzakip', $muzakip->id_muzaki_perorangan) }}" method="POST"
-                            class="d-inline form-Nactive">
+                            class="d-inline form-Nactive" id="NactiveMuzaki">
                             @csrf
                             @method('DELETE')
                             <strong class="text-dark">
                                 Status
                             </strong>
-                            <button type="submit" class="btn btn-primary myfs12 btn-Nctive">Aktif</button>
+                            <button type="button" onclick="Nactive()" class="btn btn-primary myfs12 btn-Nctive">Aktif</button>
                         </form>
                     </div>
+
                     @else
                     <form action="{{ route('destroy_muzakip', $muzakip->id_muzaki_perorangan) }}" method="POST"
-                        class="d-inline form-Nactive">
+                        class="d-inline form-Nactive" id="ActiveMuzaki">
                         @csrf
                         @method('DELETE')
                         <strong class="text-dark">
                             Status
                         </strong>
-                        <button type="submit" class="btn btn-danger myfs12 btn-Active">Nonaktif</button>
+                        <button type="button" onclick="Active()" class="btn btn-danger myfs12 btn-Active">Nonaktif</button>
                     </form>
                     @endif
                 </div>
@@ -122,8 +123,10 @@
                         <tr>
                             <td class="myfs12">{{ $loop->iteration }}</td>
                             <td class="myfs12">{{ $t->created_at->format('d/m/Y') }}</td>
-                            <td class="myfs12"> <a href="show_transaksi/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi
-                                    }}</a> </td>
+                            <td class="myfs12">
+                                {{-- <a href="show_transaksi/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi
+                                    }}</a> </td> --}}
+                                    <a href="/show_penghimpunan/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi }}</a>
                             <td class="myfs12">{{ number_format($t->nominal,2) }}</td>
                             <td class="myfs12">{{ $program->program }}</td>
                             <td>
@@ -181,3 +184,36 @@
     </div>
 </div>
 @endsection
+<script>
+    function Nactive(){
+         Swal.fire({
+                title: 'Nonaktifkan?',
+                text: 'Nonaktifkan Muzaki',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, nonaktifkan',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('NactiveMuzaki').submit();
+                }
+            });
+    }
+    function Active(){
+         Swal.fire({
+                title: 'Aktifkan?',
+                text: 'Aktifkaan Muzaki',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, aktifkan',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('ActiveMuzaki').submit();
+                }
+            });
+    }
+
+</script>

@@ -1,110 +1,48 @@
 @extends('layouts.main')
 @section('container')
+
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data {{ $muzakip->nama }}</h1>
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <div class="myfs14">
-                        Nomor Regristrasi: {{ $muzakip->nomor_registrasi }}
-                    </div>
-                    <div class="myfs14">
-                        Nama: {{ $muzakip->nama }}
-                    </div>
-                    <div class="myfs14">
-                        NPWZ: {{ $muzakip->npwz }}
-                    </div>
-                    <div class="myfs14">
-                        NPWP: {{ $muzakip->npwp }}
-                    </div>
-                    @if ($muzakip->is_active == 1)
-                    <div class="myfs14">
-                        <form action="{{ route('destroy_muzakip', $muzakip->id_muzaki_perorangan) }}" method="POST"
-                            class="d-inline form-Nactive">
-                            @csrf
-                            @method('DELETE')
-                                Status
-                            <button type="button" class="btn btn-primary myfs12 btn-Nactive">Aktif</button>
-                        </form>
-                    </div>
-                    @else
-                         <form action="{{ route('destroy_muzakip', $muzakip->id_muzaki_perorangan) }}" method="POST"
-                            class="d-inline form-Nactive">
-                            @csrf
-                            @method('DELETE')
-                            Status
-                            <button type="button" class="btn btn-danger myfs12 btn-Nactive">Nonaktif</button>
-                        </form>
-                    @endif
-                </div>
-                <div class="col">
-                    <div class="myfs14">
-                        Tempat Lahir: {{ $muzakip->tempat_lahir }}
-                    </div>
-                    <div class="myfs14">
-                        Tanggal Lahir: {{ $muzakip->tanggal_lahir }}
-                    </div>
-                    <div class="myfs14">
-                        Alamat: {{ $muzakip->alamat }}
-                    </div>
-                    <div class="myfs14">
-                        No Handphone: {{ $muzakip->no_handphone }}
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        {{-- <h1 class="h3 mb-0 text-gray-800">Registrasi Muzaki Perorangan</h1> --}}
+        {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
     </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <colgroup>
-                        <col style="width:5%">
-                        <col style="width:15%">
-                        {{--
-                        <col style="width:10%"> --}}
-                        <col style="width:15%"> <!-- Nama Muzaki -->
-                        <col style="width:20%">
-                        <col style="width:15%">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th class="myfs12">No</th>
-                            <th class="myfs12">Tanggal</th>
-                            {{-- <th class="myfs12">Nama</th> --}}
-                            <th class="myfs12">Nominal</th>
-                            <th class="myfs12">Program</th>
-                            <th class="myfs12">Lainnya</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($transaksi as $t)
-                        @php
-                        $program = App\Models\ProgramM::find($t->program_id);
-                        @endphp
-                        <tr>
-                            <td class="myfs12">{{ $loop->iteration }}</td>
-                            <td class="myfs12">{{ $t->created_at->format('d/m/Y') }}</td>
-                            <td class="myfs12">{{ number_format($t->nominal,2) }}</td>
-                            <td class="myfs12">{{ $program->program }}</td>
-                            <td>
-                                <a href="" class="btn btn-warning myfs12">E</a>
-                                <form action="" method="POST" class="d-inline form-delete">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger myfs12 btn-delete">H</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    <div class="mt-2 ">
+        <div class="card shadow p-0 mb-4 ">
+            <div class="d-flex align-items-center justify-content-between card-header py-3">
+                <h6 class="m-0 ">  <span class="font-weight-bold text-primary" >Nomor transaksi </span> <span class="font-weight-bold text-dark"> {{ $penghimpunan->nomor_transaksi }} </span>  </h6>
+                {{-- <a href="/create_muzaki_perorangan" class="btn btn-primary btn-sm">Regristrasi Muzaki</a> --}}
             </div>
+            <form action="/store_transaksi" method="post" enctype="">
+                @csrf
+                <div class="card-body">
+                    @php
+                    $nama = App\Models\muzakiPeroranganM::find($penghimpunan->muzaki_id);
+                    $program = App\Models\programM::find($penghimpunan->program_id);
+                    @endphp
+                    <label for="" class="m-0 myfs12"> <b>Nama</b> <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control mb-3" value="{{ $nama->nama }}" readonly>
+
+                    <label for="" class="m-0 myfs12"> <b>Tipe Muzaki</b> <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control mb-3" name="tipe_muzaki"
+                        value="{{ $penghimpunan->tipe_muzaki }}" readonly>
+
+                    <label for="" class="m-0 myfs12"> <b>Nominal</b> </label><span class="text-danger">*</span>
+                    <input type="number" min="1000" name="nominal" class="form-control mb-3"
+                        value="{{ $penghimpunan->nominal }}" readonly>
+
+                    <label class="myfs12"><b>Program</b></label><span class="text-danger">*</span>
+                    <input type="text" class="form-control mb-3" name="tipe_muzaki"
+                        value="{{ $program->program }}" readonly>
+
+                    <label for="" class="m-0 myfs12"> <b>Keterangan</b> </label>
+                    <textarea class="form-control" name="keterangan" id="" cols="20" rows="5" readonly></textarea>
+
+                </div>
+            </form>
         </div>
     </div>
 </div>

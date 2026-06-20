@@ -74,26 +74,26 @@
 
         });
     });
-      document.querySelectorAll('.btn-Active').forEach(button => {
-        button.addEventListener('click', function () {
+    //   document.querySelectorAll('.btn-Active').forEach(button => {
+    //     button.addEventListener('click', function () {
 
-            const form = this.closest('.form-Active');
+    //         const form = this.closest('.form-Active');
 
-            Swal.fire({
-                title: 'Aktif?',
-                text: 'Data ini akan di aktikan',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, aktifkan',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
+    //         Swal.fire({
+    //             title: 'Aktif?',
+    //             text: 'Data ini akan di aktikan',
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Ya, aktifkan',
+    //             cancelButtonText: 'Batal',
+    //             reverseButtons: true
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 form.submit();
+    //             }
+    //         });
 
-        });
-    });
+    //     });
+    // });
 });
 </script>
