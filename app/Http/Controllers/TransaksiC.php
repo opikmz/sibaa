@@ -85,36 +85,55 @@ class TransaksiC extends Controller
      */
     public function  showpenghimpunan(TransaksiM $penghimpunan)
     {
-        return view('pages.transaksi.show_penghimpunan',compact('penghimpunan'));
+        return view('pages.transaksi.show_penghimpunan', compact('penghimpunan'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TransaksiM $transaksiM, Request $request)
+    public function editpenghimpunan(Request $request)
     {
         $tipe = $request->query('tipe');
         $id = $request->query('id');
-        $program = ProgramM::get()->all();
-        if ($tipe === 'perorangan') {
-            $muzaki = muzakiPeroranganM::findOrFail($id);
 
-            return view('pages.transaksi.edit_penghimpunan', compact('muzaki', 'tipe', 'program'));
-        }
+
+        $penghimpunan = TransaksiM::findOrFail($id);
+
+        $muzaki = muzakiPeroranganM::find($penghimpunan->muzaki_id);
+        $program = ProgramM::get()->all();
+
+        // if ($tipe === 'perorangan') {
+        //     $muzaki = muzakiPeroranganM::findOrFail($id);
+
+        //     return view('pages.transaksi.edit_penghimpunan', compact('muzaki', 'tipe', 'program', 'penghimpunan'));
+        //     return view('pages.transaksi.penghimpunan_perorangan');
+        // }
+        return view('pages.transaksi.edit_penghimpunan', compact('muzaki', 'tipe', 'program', 'penghimpunan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TransaksiM $transaksiM)
+    public function updatePenghimpunanPerorangan(Request $request, TransaksiM $transaksi)
     {
-        //
+        $request->validate([
+            'tipe_muzaki' => 'required|string|max:100',
+            'nominal' => 'required|string|max:100',
+            'program_id'   => 'required',
+        ]);
+        $transaksi->update([
+            'nominal' => $request->nominal,
+            'program_id' => $request->program_id,
+            'keterangan' => $request->keterangan,
+        ]);
+        AlertServices::updateSuccess();
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TransaksiM $transaksiM)
+    public function destroyPenghimpunanPerorangan(TransaksiM $transaksi)
     {
         //
     }

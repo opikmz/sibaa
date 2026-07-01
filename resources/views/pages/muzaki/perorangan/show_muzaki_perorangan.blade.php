@@ -130,7 +130,7 @@
                             <td class="myfs12">{{ number_format($t->nominal,2) }}</td>
                             <td class="myfs12">{{ $program->program }}</td>
                             <td>
-                                <a href="" class="btn btn-warning myfs12">
+                                <a href="{{ route('penghimpunan.edit',['tipe'=>'perorangan','id'=>$t->id_transaksi]) }}" class="btn btn-warning myfs12">
                                     <i class="fa-solid fa-pen"></i></a>
                                 <form action="" method="POST" class="d-inline form-delete">
                                     @csrf

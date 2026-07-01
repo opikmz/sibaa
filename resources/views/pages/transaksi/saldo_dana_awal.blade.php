@@ -42,7 +42,8 @@
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <colgroup>
-                                {{-- <col style="width:5%"> --}}
+                                {{--
+                                <col style="width:5%"> --}}
                                 <col style="width:aut o">
                                 <col style="width:auto">
                                 <col style="width:30%">
@@ -54,16 +55,26 @@
                                     <th class="myfs12">Lainnya</th>
                                 </tr>
                             </thead>
-                            {{-- <tbody>
-                                @foreach ($program as $p)
+                            <tbody>
+                                @foreach ($danaAwal as $d)
                                 <tr>
-                                    <td class="myfs12">{{ $loop->iteration }}</td>
-                                    <td class="myfs12">{{ $p->program }}</td>
-                                    <td class="myfs12">{{ $p->kategori }}</td>
-                                    <td class="myfs12">kosong</td>
+                                    {{-- <td class="myfs12">{{ $loop->iteration }}</td> --}}
+                                    <td class="myfs12">{{ $d->tahun }}</td>
+                                    <td class="myfs12">{{ $d->nominal }}</td>
+                                    <td class="myfs12">
+                                        <a href="edit_dana_awal/{{ $d->saldo_awal }}"
+                                            class="btn btn-warning myfs12"><i class="fa-solid fa-pen"></i></a>
+                                        <form action="{{ route('dana_awal.destroy', $d->saldo_awal) }}"
+                                            method="POST" class="d-inline form-delete">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger myfs12 btn-delete"><i
+                                                    class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
-                            </tbody> --}}
+                            </tbody>
                         </table>
                     </div>
                 </div>

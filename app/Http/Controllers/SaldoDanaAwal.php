@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\saldoAwalM;
+use App\Services\AlertServices;
 use Illuminate\Http\Request;
 
 class SaldoDanaAwal extends Controller
@@ -11,7 +13,9 @@ class SaldoDanaAwal extends Controller
      */
     public function index()
     {
-        return view('pages.transaksi.saldo_dana_awal');
+        $danaAwal = saldoAwalM::get()->all();
+        // dd($danaAwal);
+        return view('pages.transaksi.saldo_dana_awal',compact('danaAwal'));
     }
 
     /**
@@ -27,11 +31,19 @@ class SaldoDanaAwal extends Controller
      */
     public function store(Request $request)
     {
+        // dd('ini');
         $request->validate([
-            'tahun' => 'required|unique:saldo_dana_awal,tahun,'  ,
+            // 'tahun' => 'required|unique:saldo_awal,tahun',
             'nominal' => 'required|string|max:100',
         ]);
 
+        $saldoDanaAwal = saldoAwalM::create([
+            'tahun' => $request->tahun,
+            'nominal' => $request->nominal,
+        ]);
+
+        AlertServices::storeSuccess();
+        return redirect()->route('saldo_dana_awal');
     }
 
     /**
@@ -45,9 +57,9 @@ class SaldoDanaAwal extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(saldoAwalM $danaAwal)
     {
-        //
+        return view('pages.transaksi.edit_dana_awal',compact('danaAwal'));
     }
 
     /**

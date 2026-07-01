@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\muzakiPeroranganM;
-use Carbon\Carbon;
+use App\Models\pengeluaranM;
 use App\Models\TransaksiM;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardC extends Controller
@@ -13,18 +14,31 @@ class DashboardC extends Controller
     {
         $TransaksiPerTahun = TransaksiM::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
         $JumlahTransaksiPerTahun = $TransaksiPerTahun->sum('nominal');
+
+        $pengeluaranPerTahun = pengeluaranM::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+        $jumlahPengeluaranPerTahun = $pengeluaranPerTahun->sum('nominal');
+
+
+        $penghimpunan = TransaksiM::get();
+        $jumlahTransaksi = $penghimpunan->sum('nominal');
+        $pengeluaran = pengeluaranM::get();
+        $jumlahPengeluaran = $pengeluaran->sum('nominal');
+        // ini belum dimasukan data awal
+        $saldo = $jumlahTransaksi - $jumlahPengeluaran;
+
+        // dd($jumlahPengeluaranPerTahun);
         $Muzaki = muzakiPeroranganM::all();
         $JumlahMuzaki = $Muzaki->count();
 
         $tahun = Carbon::now()->year;
         $dataTahun = [];
-        for($bulan = 1; $bulan <=12; $bulan++){
-            $awalBulan = Carbon::create($tahun,$bulan,1)->startOfMonth();
-            $akhirBulan = Carbon::create($tahun,$bulan,1)->endOfMonth();
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            $awalBulan = Carbon::create($tahun, $bulan, 1)->startOfMonth();
+            $akhirBulan = Carbon::create($tahun, $bulan, 1)->endOfMonth();
 
-            $dataTahun [$awalBulan->format('M')] = TransaksiM::whereBetween('created_at',[$awalBulan,$akhirBulan])->sum('nominal');
+            $dataTahun[$awalBulan->format('M')] = TransaksiM::whereBetween('created_at', [$awalBulan, $akhirBulan])->sum('nominal');
         }
         // dd($dataTahun);
-        return view('pages.dashboard', compact('TransaksiPerTahun','JumlahTransaksiPerTahun','JumlahMuzaki','dataTahun'));
+        return view('pages.dashboard', compact('TransaksiPerTahun', 'JumlahTransaksiPerTahun', 'JumlahMuzaki', 'dataTahun', 'jumlahPengeluaranPerTahun', 'saldo'));
     }
 }

@@ -11,14 +11,13 @@
 
     <div class="card shadow mb-4">
         <div class="d-flex align-items-center justify-content-between card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Penghimpunan</h6>
-            <a href="/muzaki_perorangan" class="btn btn-primary btn-sm">Tambah</a>
+            <h6 class="m-0 font-weight-bold text-primary">Data Pengeluaran</h6>
+            <a href="/create_pengeluaran" class="btn btn-primary btn-sm">Tambah</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <colgroup>
-                        <col style="width:5%">
                         <col style="width:5%">
                         <col style="width:15%">
                         <col style="width:10%">
@@ -29,43 +28,45 @@
                     <thead>
                         <tr>
                             <th class="myfs12">No</th>
-                            <th class="myfs12">Tanggal</th>
-                            <th class="myfs12">Nomor Transaksi</th>
                             <th class="myfs12">Nama</th>
+                            <th class="myfs12">Tanggal</th>
                             <th class="myfs12">Nominal</th>
                             <th class="myfs12">Program</th>
                             <th class="myfs12">Lainnya</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($transaksi as $t)
+                        @foreach ($pengeluaran as $p)
                         @php
-                        $muzaki = App\Models\muzakiPeroranganM::find($t->muzaki_id);
-                        $program = App\Models\ProgramM::find($t->program_id);
+                        $program = App\Models\ProgramM::find($p->program_id);
                         @endphp
                         <tr>
                             <td class="myfs12">{{ $loop->iteration }}</td>
-                            <td class="myfs12">{{ $t->created_at->format('d/m/Y') }}</td>
-                            <td class="myfs12"> <a href="show_penghimpunan/{{ $t->id_transaksi }}">{{ $t->nomor_transaksi
+                            <td class="myfs12"> <a href="show_pengeluaran/{{ $p->pengeluaran }}">{{
+                                    $p->pengeluaran
                                     }}</a> </td>
-                            <td class="myfs12">{{ $muzaki->nama }}</td>
-                            <td class="myfs12">{{ number_format($t->nominal,2) }}</td>
+                            <td class="myfs12">{{ $p->created_at->format('d/m/Y') }}</td>
+                            <td class="myfs12">{{ number_format($p->nominal,2) }}</td>
+                            {{-- <td class="myfs12">{{ $muzaki->nama }}</td> --}}
+
                             <td class="">
                                 <div class="myfs12">
+                                    @if ($program)
                                     {{ $program->program }}
+
+                                    @endif
                                 </div>
-                                <div class="myfs12">
+                                {{-- <div class="myfs12">
                                     <div class=""
                                         style="background:#1daf92; padding:3px 10px; display: inline-block; color:white; border-radius: 0.35rem;">
                                         {{ $t->kategori_transaksi }}</div>
-                                </div>
+                                </div> --}}
                             </td>
                             <td>
-                                {{-- <a href="" class="btn btn-primary myfs12">T</a> --}}
-                                <a href="{{ route('penghimpunan.edit',['tipe'=>'perorangan','id'=>$t->id_transaksi]) }}"
+                                <a href="edit_pengeluaran/{{ $p->id_pengeluaran }}"
                                     class="btn btn-warning myfs12"><i class="fa-solid fa-pen"></i></a>
-                                    
-                                <form action="destroy_penghimpunan/{{$transaksi}}" method="POST" class="d-inline form-delete">
+
+                                <form action="{{ route('pengeluaran.destroy', $p->id_pengeluaran) }}" method="POST" class="d-inline form-delete">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger myfs12 btn-delete"><i

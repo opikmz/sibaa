@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\DashboardC;
 use App\Http\Controllers\MuzakiC;
+use App\Http\Controllers\PengeluaranC;
 use App\Http\Controllers\programC;
 use App\Http\Controllers\SaldoDanaAwal;
 use App\Http\Controllers\TransaksiC;
+use App\Models\saldoAwalM;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,16 +56,38 @@ Route::post('/store_transaksi', [TransaksiC::class, 'store'])
 Route::get('/penghimpunan', [TransaksiC::class, 'indexp'])
     ->name('penghimpunan_perorangan');
 
-Route::get('/transaksi/edit', [TransaksiC::class, 'edit'])
-    ->name('transaksi.edit');
+Route::get('/penghimpunan/edit', [TransaksiC::class, 'editpenghimpunan'])
+    ->name('penghimpunan.edit');
 
 Route::get('/show_penghimpunan/{penghimpunan}', [TransaksiC::class, 'showpenghimpunan'])
     ->name('transaksi.showpenghimpunanan');
-    
+
+Route::post('/update_penghimpunan/{transaksi}', [TransaksiC::class, 'updatePenghimpunanPerorangan'])
+    ->name('update_penghimpunan_perorangan');
+// Pengeluaran
+Route::get('/pengeluaran', [PengeluaranC::class, 'index'])
+    ->name('pengeluaran');
+Route::get('/create_pengeluaran', [PengeluaranC::class, 'create'])
+    ->name('pengeluaran.create');
+Route::post('/store_pengeluaran', [PengeluaranC::class, 'store'])
+    ->name('pengeluaran.store');
+Route::get('/edit_pengeluaran/{pengeluaran}', [PengeluaranC::class, 'edit'])
+    ->name('pengeluaran.edit');
+Route::post('/update_pengeluaran/{pengeluaran}', [PengeluaranC::class, 'update'])
+    ->name('pengeluaran.update');
+Route::delete('/destroy_pengeluaran/{pengeluaran}', [PengeluaranC::class, 'destroy'])
+    ->name('pengeluaran.destroy');
 
 // Saldo dana awal
 Route::get('/saldo_dana_awal', [SaldoDanaAwal::class, 'index'])
-    ->name('saldo_dana_awal.index');
+    ->name('saldo_dana_awal');
 
-Route::post('/store_saldo_dana_awal', [SaldoDanaAwal::class, 'store'])
+Route::post('/store_saldo_awal', [SaldoDanaAwal::class, 'store'])
     ->name('store_dana_awal');
+
+Route::get('/edit_dana_awal/{danaAwal}', [SaldoDanaAwal::class, 'edit'])
+    ->name('edit_dana_awal');
+
+Route::delete('/destroy_dana_awal/{danaAwal}', [SaldoDanaAwal::class, 'destroy'])
+    ->name('dana_awal.destroy');
+//
