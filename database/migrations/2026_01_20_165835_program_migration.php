@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('program', function (Blueprint $table) {
             $table->id('id_program');
             $table->string('program');
-            $table->enum('kategori', ['infaq', 'zakat']);
+            $table->decimal('target_penghimpunan', 15, 2)->nullable();
+            $table->enum('kategori', ['infaq', 'zakat','sedekah'])->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

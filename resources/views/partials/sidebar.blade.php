@@ -36,7 +36,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 {{-- <h6 class="collapse-header">Custom Components:</h6> --}}
                 <a class="collapse-item" href="/muzaki_perorangan">Perorangan</a>
-                <a class="collapse-item" href="/">Lembaga</a>
+                {{-- <a class="collapse-item" href="/">Lembaga</a> --}}
             </div>
         </div>
     </li>
@@ -48,8 +48,8 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#transaksi" aria-expanded="true"
-            aria-controls="transaksi">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#transaksi"
+            aria-expanded="true" aria-controls="transaksi">
             {{-- <i class="fas fa-fw fa-cog"></i> --}}
             <i class="fas fa-dollar-sign fa-cog"></i>
             <span>Transaksi</span>
@@ -69,6 +69,11 @@
             <span>Saldo Dana Awal</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="/laporan">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Laporan</span></a>
+    </li>
     <!-- Nav Item - Pages Collapse Menu -->
     {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"

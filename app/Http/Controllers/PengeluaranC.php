@@ -40,6 +40,8 @@ class PengeluaranC extends Controller
         $pengeluaran = pengeluaranM::create([
             'pengeluaran' => $request->pengeluaran,
             'nominal' => $request->nominal,
+            'program_id' => $request->program_id,
+            'keterangan' => $request->keterangan,
         ]);
 
         AlertServices::storeSuccess();

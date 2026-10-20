@@ -65,16 +65,31 @@ class SaldoDanaAwal extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, saldoAwalM $danaAwal)
     {
-        //
+        $request->validate([
+            // 'tahun' => 'required|string|max:100',
+            'nominal' => 'required|string|max:100',
+        ]);
+
+        $danaAwal->update([
+            // 'tahun' => $request->tahun,
+            'nominal' => $request->nominal,
+        ]);
+
+        AlertServices::updateSuccess();
+        return redirect()->route('saldo_dana_awal');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(saldoAwalM $danaAwal)
     {
-        //
+        // dd($danaAwal);
+        $danaAwal->delete();
+
+        AlertServices::destroySuccess();
+        return redirect()->route('saldo_dana_awal');
     }
 }

@@ -8,16 +8,39 @@ use App\Models\TransaksiM;
 use App\Services\AlertServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Exports\PenghimpunanBulananExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransaksiC extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function indexp()
+    public function indexp(Request $request)
     {
-        $transaksi = TransaksiM::latest()->get();
-        return view('pages.transaksi.penghimpunan_perorangan', compact('transaksi'));
+        $bulan = (int) $request->query('bulan', date('n'));
+        $tahun = (int) $request->query('tahun', date('Y'));
+
+        // Validasi bulan dan tahun
+        if ($bulan < 1 || $bulan > 12 || $tahun < 2000 || $tahun > 2100) {
+            abort(422, 'Bulan atau tahun tidak valid.');
+        }
+
+        $awalBulan = Carbon::create($tahun, $bulan, 1)->startOfMonth();
+        $akhirBulan = $awalBulan->copy()->endOfMonth();
+
+        $transaksi = TransaksiM::whereBetween('created_at', [
+            $awalBulan,
+            $akhirBulan
+        ])
+            ->latest()
+            ->get();
+
+        return view('pages.transaksi.penghimpunan_perorangan', compact(
+            'transaksi',
+            'bulan',
+            'tahun'
+        ));
     }
 
     /**
@@ -49,6 +72,7 @@ class TransaksiC extends Controller
             'muzaki_id' => 'required|string|max:100',
             'tipe_muzaki' => 'required|string|max:100',
             'nominal' => 'required|string|max:100',
+            'kategori'   => 'required',
             'program_id'   => 'required',
         ]);
         $program = $request->program_id;
@@ -61,13 +85,13 @@ class TransaksiC extends Controller
         $nomorTransaksi = $program . ' ' . $time . ' ' . $date;
         $program = ProgramM::find($request->program_id);
 
-        $kategori_transaksi = $program->kategori;
+        // $kategori_transaksi = $program->kategori;
 
         $transaksi = TransaksiM::create([
             'nomor_transaksi' => $nomorTransaksi,
             'muzaki_id' => $request->muzaki_id,
             'tipe_muzaki' => $request->tipe_muzaki,
-            'kategori_transaksi' => $kategori_transaksi,
+            'kategori_transaksi' => $request->kategori,
             'nominal' => $request->nominal,
             'program_id' => $request->program_id,
             'keterangan' => $request->keterangan,
@@ -127,7 +151,7 @@ class TransaksiC extends Controller
             'keterangan' => $request->keterangan,
         ]);
         AlertServices::updateSuccess();
-        return redirect()->back();
+        return redirect()->route('penghimpunan_perorangan');
     }
 
     /**
@@ -135,6 +159,29 @@ class TransaksiC extends Controller
      */
     public function destroyPenghimpunanPerorangan(TransaksiM $transaksi)
     {
-        //
+        $transaksi->delete();
+        AlertServices::destroySuccess();
+        return redirect()->route('penghimpunan_perorangan');
+    }
+    
+    public function exportPenghimpunanBulanan(Request $request)
+    {
+        $bulan = (int) $request->query('bulan', date('n'));
+        $tahun = (int) $request->query('tahun', date('Y'));
+
+        if ($bulan < 1 || $bulan > 12 || $tahun < 2000 || $tahun > 2100) {
+            abort(422, 'Bulan atau tahun tidak valid.');
+        }
+
+        $namaBulan = Carbon::create($tahun, $bulan, 1)
+            ->locale('id')
+            ->translatedFormat('F');
+
+        $namaFile = "Penghimpunan Bulanan {$namaBulan} {$tahun}.xlsx";
+
+        return Excel::download(
+            new PenghimpunanBulananExport($bulan, $tahun),
+            $namaFile
+        );
     }
 }

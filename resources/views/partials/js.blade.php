@@ -9,11 +9,13 @@
 <script src="{{ asset('asset') }}/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
+<script src="{{ asset('asset') }}/js/demo/chart-bar-demo.js"></script>
 <script src="{{ asset('asset') }}/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('asset') }}/js/demo/chart-area-demo.js"></script>
 <script src="{{ asset('asset') }}/js/demo/chart-pie-demo.js"></script>
+<script src="{{ asset('asset') }}/js/demo/chart-bar-program-harian.js"></script>
 
 <script src="{{ asset('asset') }}/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="{{ asset('asset') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>

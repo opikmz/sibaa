@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\DashboardC;
+use App\Http\Controllers\LaporanC;
 use App\Http\Controllers\MuzakiC;
 use App\Http\Controllers\PengeluaranC;
-use App\Http\Controllers\programC;
+use App\Http\Controllers\ProgramC;
 use App\Http\Controllers\SaldoDanaAwal;
 use App\Http\Controllers\TransaksiC;
-use App\Models\saldoAwalM;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,11 +43,24 @@ Route::post('/update_muzakip/{muzakip}', [MuzakiC::class, 'updatep'])
 Route::delete('/destroy_muzakip/{muzakip}', [MuzakiC::class, 'destroyp'])
     ->name('destroy_muzakip');
 
+
+// Program
 Route::get('/program', [ProgramC::class, 'index'])
     ->name('program');
+Route::get('/show_program/{program}', [ProgramC::class, 'show'])
+    ->name('show_program');
 Route::post('/store_program', [ProgramC::class, 'store'])
     ->name('store_program');
+Route::post('/update_program/{program}', [ProgramC::class, 'update'])
+    ->name('update_program');
+Route::delete('/destroy_program/{program}', [ProgramC::class, 'destroy'])
+    ->name('destroy_program');
+Route::get(
+    '/export-penghimpunan/{id}',
+    [ProgramC::class, 'exportPenghimpunan']
+)->name('export.penghimpunan');
 
+// Transaksi
 Route::get('/transaksi/create', [TransaksiC::class, 'create'])
     ->name('transaksi.create');
 Route::post('/store_transaksi', [TransaksiC::class, 'store'])
@@ -64,6 +77,14 @@ Route::get('/show_penghimpunan/{penghimpunan}', [TransaksiC::class, 'showpenghim
 
 Route::post('/update_penghimpunan/{transaksi}', [TransaksiC::class, 'updatePenghimpunanPerorangan'])
     ->name('update_penghimpunan_perorangan');
+Route::delete('/destroy_penghimpunan/{transaksi}', [TransaksiC::class, 'destroyPenghimpunanPerorangan'])
+    ->name('destroy_penghimpunan_perorangan');
+
+Route::get(
+    '/export-penghimpunan-bulanan',
+    [TransaksiC::class, 'exportPenghimpunanBulanan']
+)->name('export.penghimpunan.bulanan');
+
 // Pengeluaran
 Route::get('/pengeluaran', [PengeluaranC::class, 'index'])
     ->name('pengeluaran');
@@ -78,6 +99,7 @@ Route::post('/update_pengeluaran/{pengeluaran}', [PengeluaranC::class, 'update']
 Route::delete('/destroy_pengeluaran/{pengeluaran}', [PengeluaranC::class, 'destroy'])
     ->name('pengeluaran.destroy');
 
+
 // Saldo dana awal
 Route::get('/saldo_dana_awal', [SaldoDanaAwal::class, 'index'])
     ->name('saldo_dana_awal');
@@ -88,6 +110,11 @@ Route::post('/store_saldo_awal', [SaldoDanaAwal::class, 'store'])
 Route::get('/edit_dana_awal/{danaAwal}', [SaldoDanaAwal::class, 'edit'])
     ->name('edit_dana_awal');
 
+Route::post('/update_dana_awal/{danaAwal}', [SaldoDanaAwal::class, 'update'])
+    ->name('update_dana_awal');
+
 Route::delete('/destroy_dana_awal/{danaAwal}', [SaldoDanaAwal::class, 'destroy'])
     ->name('dana_awal.destroy');
 //
+Route::get('/laporan', [LaporanC::class, 'index'])
+    ->name('laporan');

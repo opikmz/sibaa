@@ -46,6 +46,7 @@
                     <select name="program_id" class="form-control" >
                         <option value="">Pilih Program</option>
                         @foreach ($program as $p)
+                        {{-- @dd($p->id_program) --}}
                         <option value="{{ $p->id_program }}">{{ $p->program }}</option>
                         @endforeach
                     </select>
